@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Art Marketplace</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('https://i.redd.it/cwvf7vn1m8ic1.gif') no-repeat center center fixed;
+            background-size: cover;
+            color: #e0e0e0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        nav {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+        }
+        .navbar-title {
+            color: #ffce00;
+            font-size: 26px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin: 0;
+        }
+        .wallet-info {
+            display: flex;
+            align-items: center;
+        }
+        .wallet-info button {
+            background-color: #ffce00;
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            transform: perspective(1px) translateZ(0);
+            transition: transform 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            border-radius: 5px;
+        }
+        .wallet-info button:active {
+            transform: translateY(4px);
+        }
+        .wallet-info p {
+            margin-left: 20px;
+            color: #f4f4f9;
+            font-weight: bold;
+        }
+        .content {
+            padding: 120px 20px 40px;
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+        }
+        h1 {
+            color: #ffce00;
+            font-size: 36px;
+            text-shadow: 0 4px 6px rgba(0, 0, 0, 0.6);
+            margin-bottom: 30px;
+        }
+        h2 {
+            color: #00f0ff;
+            font-size: 28px;
+            text-shadow: 0 4px 6px rgba(0, 0, 0, 0.6);
+            margin-bottom: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+            margin-bottom: 20px;
+        }
+        input {
+            background-color: #333;
+            color: #fff;
+            border: 1px solid #555;
+            padding: 15px;
+            margin: 10px 0;
+            width: 90%;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #ffce00;
+            color: #000;
+            border: none;
+            padding: 15px 30px;
+            cursor: pointer;
+            transform: perspective(1px) translateZ(0);
+            transition: transform 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            border-radius: 5px;
+            margin-top: 15px;
+            width: 60%;
+        }
+        button:hover {
+            background-color: #ffd633;
+        }
+        button:active {
+            transform: translateY(4px);
+        }
+        #artworkList {
+            margin-top: 40px;
+        }
+        .artwork {
+            border: 1px solid #ffce00;
+            padding: 15px;
+            margin-bottom: 20px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+        }
+        #status {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: #ffce00;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Responsive Navbar */
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .navbar-title {
+                margin-bottom: 10px;
+            }
+            .wallet-info {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .wallet-info p {
+                margin-left: 0;
+                margin-top: 10px;
+            }
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="navbar-title">Art Gallery</div>
+        <div class="wallet-info">
+            <button id="connectWallet">Connect Wallet</button>
+            <button id="disconnectWallet" style="display:none;">Disconnect Wallet</button>
+            <p id="walletAddress"></p>
+        </div>
+    </nav>
+    
+    <div class="content">
+        <h1>Welcome to Art Gallery</h1>
+
+        <form>
+            <h2>List Artwork</h2>
+            <input type="text" id="artworkTitle" placeholder="Artwork Title">
+            <input type="number" id="artworkPrice" placeholder="Price (in ETH)">
+            <button id="listArtwork">List Artwork</button>
+        </form>
+
+        <form>
+            <h2>Buy Artwork</h2>
+            <input type="number" id="artworkId" placeholder="Artwork ID">
+            <button id="buyArtwork">Buy Artwork</button>
+        </form>
+
+        <form>
+            <h2>Update Artwork Price</h2>
+            <input type="number" id="updateArtworkId" placeholder="Artwork ID">
+            <input type="number" id="newPrice" placeholder="New Price (in ETH)">
+            <button id="updatePrice">Update Price</button>
+        </form>
+        
+        <div id="artworkList">
+            <h2>Available Artworks</h2>
+            <!-- Artworks will be listed here -->
+        </div>
+    </div>
+
+    <div id="status"></div>
+
+    <script src="https://cdn.ethers.io/lib/ethers-5.0.umd.min.js"></script>
+    <script src="./abi/contractDetails.js" type="module"></script>
+<script src="./app.js" type="module"></script>
+
+    <!-- <script src="app.js"></script> -->
+</body>
+</html>
